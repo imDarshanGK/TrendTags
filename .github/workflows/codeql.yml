@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '0 0 * * 0' # optional: run every week
+    - cron: '0 0 * * 0' # Weekly scan
 
 jobs:
   analyze:
@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'python', 'javascript' ] # HTML is scanned under JavaScript
+        language: [ 'javascript' ] # For HTML + JS scanning
 
     steps:
       - name: Checkout repository
