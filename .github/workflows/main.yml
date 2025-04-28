@@ -26,8 +26,10 @@ jobs:
 
       - name: Install Python dependencies
         run: |
+          echo "🔵 Installing Python dependencies..."
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else echo "No requirements.txt found, skipping..."; fi
+          echo "----------------------"
 
       - name: Set up Node.js (optional for frontend tools)
         uses: actions/setup-node@v4
@@ -36,15 +38,26 @@ jobs:
 
       - name: Check for HTML files
         run: |
-          echo "Checking HTML files..."
-          if ls *.html >/dev/null 2>&1; then echo "✅ HTML files found."; else echo "❌ No HTML files found!"; exit 1; fi
+          echo "🔵 Checking for HTML files..."
+          if ls *.html >/dev/null 2>&1; then 
+            echo "✅ HTML files found."; 
+          else 
+            echo "❌ No HTML files found!"; 
+            exit 1; 
+          fi
+          echo "----------------------"
 
       - name: Run Python tests (if available)
         run: |
+          echo "🔵 Checking for Python tests..."
           if [ -f pytest.ini ] || [ -d tests ]; then
             echo "Running Python tests..."
             pip install pytest
             pytest
           else
-            echo "No Python tests found. Skipping."
+            echo "No Python tests found. Skipping tests."
           fi
+          echo "----------------------"
+
+      - name: Workflow completed
+        run: echo "🎉 CI Pipeline workflow completed successfully!"

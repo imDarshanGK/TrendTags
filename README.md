@@ -18,6 +18,8 @@ It’s designed to help content creators find relevant hashtags quickly and easi
 4. Click "Generate Hashtags" to get a list of related hashtags.
 5. Select a platform (Instagram, Facebook, YouTube).
 6. Click **Generate Hashtags** to get a list of related hashtags.
+7. Select a platform (Instagram, Facebook, YouTube).
+8. Click "Generate Hashtags" to get a list of related hashtags.
 
 ## 🤝 How to Contribute
 We welcome contributions! Here's how you can help:
