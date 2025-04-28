@@ -1,0 +1,17 @@
+# Core Requirements
+html5
+css3
+javascript-es6
+
+# Browser Requirements
+modern-browsers=chrome|firefox|safari|edge
+
+# Key Features
+text-processing
+hashtag-generation
+responsive-ui
+copy-functionality
+
+# Performance
+generation-time<2s
+client-side-processing
