@@ -77,7 +77,7 @@
   <header>🔥 Hashtag Generator Tool</header>
   <div class="container">
     <h2>Enter any topic or caption</h2>
-    <textarea id="inputText" placeholder="e.g. coding, travel, dogs..."></textarea>
+    <textarea id="inputText" placeholder="e.g. coding tutorials, travel tips, dog breeds..."></textarea>
 
     <select id="platform">
       <option value="instagram">Instagram</option>
@@ -88,7 +88,6 @@
     <button onclick="generateHashtags()">Generate Hashtags</button>
 
     <div class="output" id="outputArea">Your hashtags will appear here...</div>
-    <button onclick="copyHashtags()" style="width:100%;margin-top:10px;">Copy Hashtags</button>
   </div>
 
   <footer>
@@ -96,55 +95,54 @@
   </footer>
 
   <script>
-    const hashtagDatabase = {
-      instagram: {
-        coding: ["#coding", "#programming", "#developer", "#webdev", "#javascript", "#python", "#html", "#css", "#coderslife"],
-        travel: ["#travel", "#wanderlust", "#adventure", "#vacation", "#travelgram", "#passportready", "#globetrotter"],
-        dog: ["#dogsofinstagram", "#puppies", "#doglife", "#doglover", "#doglovers", "#dogstagram", "#petsofinstagram"]
-      },
-      facebook: {
-        coding: ["#tech", "#programming", "#coder", "#webdevelopment", "#computerscience", "#algorithms", "#software"],
-        travel: ["#vacation", "#travelblogger", "#travelphotography", "#adventuretime", "#discover", "#getaway"],
-        dog: ["#doglife", "#doglover", "#dogs", "#puppylove", "#dogmom", "#dogdad", "#rescuedog"]
-      },
-      youtube: {
-        coding: ["#codingtutorial", "#programming", "#webdevtutorial", "#pythonprogramming", "#codewithme", "#programmingtips"],
-        travel: ["#travelvlog", "#travelvideos", "#travelguide", "#traveldocumentary", "#traveldiaries"],
-        dog: ["#dogvlog", "#puppyvideos", "#dogtraining", "#dogtricks", "#cutedogs", "#dogvideo"]
-      }
-    };
-
     function generateHashtags() {
       const text = document.getElementById("inputText").value.toLowerCase().trim();
       const platform = document.getElementById("platform").value;
+
+      // Common hashtags across all platforms
+      const commonHashtags = ["#love", "#instagood", "#photooftheday", "#style", "#beautiful", "#happy", "#followme"];
+
+      // Here, we will allow a wide range of topics
+      const dynamicHashtags = {
+        instagram: {
+          "coding tutorials": ["#coding", "#learnprogramming", "#developer", "#techie", "#codinglife", "#programming", "#javascript"],
+          "travel tips": ["#travel", "#explore", "#vacation", "#wanderlust", "#trip", "#travelling", "#adventure"],
+          "dog breeds": ["#dogsofinstagram", "#puppies", "#doglife", "#doglover", "#pets", "#doglovers", "#cute"]
+        },
+        facebook: {
+          "coding tutorials": ["#tech", "#programming", "#coder", "#learncoding", "#developer", "#technology"],
+          "travel tips": ["#vacation", "#travelblogger", "#exploring", "#traveladdict", "#wanderlust", "#nature"],
+          "dog breeds": ["#doglife", "#petsofinstagram", "#doglover", "#dogs", "#animalfriends"]
+        },
+        youtube: {
+          "coding tutorials": ["#codingtutorial", "#learnprogramming", "#techvideos", "#developer", "#tutorials"],
+          "travel tips": ["#travelvlog", "#travelvideos", "#exploretheworld", "#adventure", "#vacationvibes"],
+          "dog breeds": ["#dogvlog", "#puppyvideos", "#doglovers", "#petvlog", "#dogtraining"]
+        }
+      };
+
+      // Find hashtags based on user input
       let finalTags = [];
 
-      // Find matching hashtags
-      if (hashtagDatabase[platform]) {
-        for (const [keyword, tags] of Object.entries(hashtagDatabase[platform])) {
-          if (text.includes(keyword)) {
-            finalTags = [...finalTags, ...tags];
+      // Check for dynamic topic matches
+      if (dynamicHashtags[platform]) {
+        for (let category in dynamicHashtags[platform]) {
+          if (text.includes(category)) {
+            finalTags = dynamicHashtags[platform][category];
+            break;
           }
         }
       }
 
-      // Add trending tags if no matches
+      // If no specific match, generate generic hashtags
       if (finalTags.length === 0) {
-        finalTags = ["#trending", "#viral", "#explore", "#new", "#discover"];
+        finalTags = commonHashtags.concat("#trending", "#viral", "#explore", "#new", "#discover");
       }
 
-      // Limit and display
-      document.getElementById("outputArea").textContent = 
-        finalTags.slice(0, 30).join(" ");
-    }
+      // Limit to 30 hashtags
+      finalTags = finalTags.slice(0, 30);
 
-    function copyHashtags() {
-      const hashtags = document.getElementById("outputArea").textContent;
-      if (hashtags && hashtags !== "Your hashtags will appear here...") {
-        navigator.clipboard.writeText(hashtags)
-          .then(() => alert("Hashtags copied to clipboard!"))
-          .catch(() => alert("Failed to copy hashtags"));
-      }
+      document.getElementById("outputArea").textContent = finalTags.join(" ");
     }
   </script>
 </body>
