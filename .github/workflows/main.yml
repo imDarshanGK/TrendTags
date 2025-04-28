@@ -1,4 +1,4 @@
-name: CI
+name: CI Pipeline
 
 on:
   push:
@@ -8,25 +8,43 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run tests
+      - name: Set up Node.js (optional for frontend tools)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Check for HTML files
         run: |
-          pytest
+          echo "Checking HTML files..."
+          if ls *.html >/dev/null 2>&1; then echo "✅ HTML files found."; else echo "❌ No HTML files found!"; exit 1; fi
 
+      - name: Run Python tests (if available)
+        run: |
+          if [ -f pytest.ini ] || [ -d tests ]; then
+            echo "Running Python tests..."
+            pip install pytest
+            pytest
+          else
+            echo "No Python tests found. Skipping."
+          fi
