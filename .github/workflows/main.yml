@@ -6,12 +6,13 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '0 0 * * 0'  # Every Sunday run automatically
+    - cron: '0 0 * * 0'
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+
     permissions:
       actions: read
       contents: read
@@ -20,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [python]  # Only Python for now
+        language: [ 'javascript', 'python', 'github-actions' ]
 
     steps:
     - name: Checkout repository
