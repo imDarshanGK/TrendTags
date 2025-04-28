@@ -11,7 +11,7 @@ TrendTags is a simple tool that allows users to generate hashtags for Instagram,
 ## How to Use
 1. Go to [TrendTags Website](https://trendtags.netlify.app/).
 2. Enter a topic or caption (e.g., fitness, motivation).
-3. Select a platform (Instagram, Facebook, YouTube).
+3. Select a platform (Instagram, YouTube).
 4. Click "Generate Hashtags" to get a list of related hashtags.
 
 ## How to Contribute
