@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 * * 0'  # Run weekly on Sunday at midnight UTC
 
 jobs:
   analyze:
@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript', 'python', 'github-actions' ]
+        language: [ 'javascript' ]  # Change to 'python' when you add Python files in the future
 
     steps:
     - name: Checkout repository
