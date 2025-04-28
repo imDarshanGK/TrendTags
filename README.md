@@ -14,10 +14,8 @@ It’s designed to help content creators find relevant hashtags quickly and easi
 ## 🚀 How to Use
 1. Visit the [TrendTags Website](https://trendtags.netlify.app/).
 2. Enter a topic or caption (e.g., fitness, motivation).
-3. Select a platform (Instagram, YouTube).
+3. Select a platform (Instagram, Facebook, YouTube).
 4. Click "Generate Hashtags" to get a list of related hashtags.
-5. Select a platform (Instagram, Facebook, YouTube).
-6. Click **Generate Hashtags** to get a list of related hashtags.
 
 ## 🤝 How to Contribute
 We welcome contributions! Here's how you can help:
