@@ -1,63 +1,38 @@
-name: CI Pipeline
+name: "CodeQL"
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
-
-permissions:
-  contents: read
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday run automatically
 
 jobs:
-  build:
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python]  # Only Python for now
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
 
-      - name: Install Python dependencies
-        run: |
-          echo "🔵 Installing Python dependencies..."
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; else echo "No requirements.txt found, skipping..."; fi
-          echo "----------------------"
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
 
-      - name: Set up Node.js (optional for frontend tools)
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Check for HTML files
-        run: |
-          echo "🔵 Checking for HTML files..."
-          if ls *.html >/dev/null 2>&1; then 
-            echo "✅ HTML files found."; 
-          else 
-            echo "❌ No HTML files found!"; 
-            exit 1; 
-          fi
-          echo "----------------------"
-
-      - name: Run Python tests (if available)
-        run: |
-          echo "🔵 Checking for Python tests..."
-          if [ -f pytest.ini ] || [ -d tests ]; then
-            echo "Running Python tests..."
-            pip install pytest
-            pytest
-          else
-            echo "No Python tests found. Skipping tests."
-          fi
-          echo "----------------------"
-
-      - name: Workflow completed
-        run: echo "🎉 CI Pipeline workflow completed successfully!"
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
