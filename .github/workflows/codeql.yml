@@ -1,49 +1,38 @@
-name: CodeQL
+name: "CodeQL"
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0' # optional: run every week
 
 jobs:
   analyze:
-    name: Analyze code with CodeQL
+    name: Analyze
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'python', 'javascript' ] # HTML is scanned under JavaScript
 
     steps:
-      # Checkout the repository code
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # Set up CodeQL
-      - name: Set up CodeQL
-        uses: github/codeql-action/setup-codeql@v2
-
-      # Initialize CodeQL database
-      - name: Initialize CodeQL database for Python
-        run: |
-          codeql database create --language=python --db-location=codeql-db-python
-
-      # Run Python analysis
-      - name: Run CodeQL Python analysis
-        run: |
-          codeql analyze --database=codeql-db-python --format=sarif-latest --output=python-analysis.sarif codeql/python
-
-      # Initialize CodeQL database for HTML
-      - name: Initialize CodeQL database for HTML
-        run: |
-          codeql database create --language=javascript --db-location=codeql-db-html
-
-      # Run HTML analysis
-      - name: Run CodeQL HTML analysis
-        run: |
-          codeql analyze --database=codeql-db-html --format=sarif-latest --output=html-analysis.sarif codeql/html
-
-      # Upload analysis results as GitHub checks
-      - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
         with:
-          sarif_file: python-analysis.sarif
+          languages: ${{ matrix.language }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
