@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ] # For HTML + JS scanning
+        language: [ 'javascript', 'HTML' ] # For HTML + JS scanning
 
     steps:
       - name: Checkout repository
