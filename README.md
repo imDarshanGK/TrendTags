@@ -1,4 +1,4 @@
-# TrendTags - Hashtag Generator Tool
+# TrendTags - AI Hashtag Generator Tool
 
 ![Build Status](https://github.com/imDarshanGK/TrendTags/actions/workflows/main.yml/badge.svg)
 
@@ -14,8 +14,9 @@ It’s designed to help content creators find relevant hashtags quickly and easi
 ## 🚀 How to Use
 1. Visit the [TrendTags Website](https://trendtags.netlify.app/).
 2. Enter a topic or caption (e.g., fitness, motivation).
-3. Select a platform (Instagram, Facebook, YouTube).
-4. Click "Generate Hashtags" to get a list of related hashtags.
+3. Select a platform (Basic Hashtags, Trendy Hashtags, Niche-Specific ).
+4. Click "Generate Smart Hashtags" to get a list of related hashtags.
+5. Copy the hashtags by clicking "Copy Hastags".
 
 ## 🤝 How to Contribute
 We welcome contributions! Here's how you can help:
