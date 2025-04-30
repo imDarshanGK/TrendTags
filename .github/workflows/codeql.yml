@@ -1,12 +1,10 @@
-name: "CodeQL"
+name: "CodeQL Analysis"
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  schedule:
-    - cron: '0 0 * * 0'
 
 jobs:
   analyze:
@@ -26,16 +24,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 2
+        fetch-depth: 0  # Important for proper analysis
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         config-file: .github/codeql/codeql-config.yml
-
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
