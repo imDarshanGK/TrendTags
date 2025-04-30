@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Tags Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="youtube-icon">
+                <i class="fab fa-youtube"></i>
+            </div>
+            <h1>YouTube Tags Generator</h1>
+            <p>Get trending tags for your YouTube videos</p>
+        </div>
+        
+        <div class="search-box">
+            <div class="input-group">
+                <input type="text" id="topicInput" placeholder="Enter your video topic...">
+                <button id="searchBtn">
+                    <i class="fas fa-search"></i> Generate Tags
+                </button>
+            </div>
+            <div class="options">
+                <label for="maxResults">Max Tags:</label>
+                <select id="maxResults">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="30" selected>30</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="results-container">
+            <div class="source-info" id="sourceInfo"></div>
+            <div class="tags-container" id="tagsContainer">
+                <div class="placeholder">
+                    <i class="fab fa-youtube"></i>
+                    <p>Enter a topic to generate YouTube tags</p>
+                </div>
+            </div>
+            <button id="copyBtn" class="hidden">
+                <i class="far fa-copy"></i> Copy All Tags
+            </button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
