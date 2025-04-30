@@ -1,6 +1,4 @@
-name: "TrendTags Security Scan"
+name: "TrendTags Analysis"
 disable-default-queries: false
-paths-ignore:
-  - '**/tests/**'
 queries:
   - uses: security-and-quality
