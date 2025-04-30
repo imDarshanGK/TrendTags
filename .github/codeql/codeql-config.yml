@@ -1,6 +1,6 @@
 name: "TrendTags Security Scan"
 disable-default-queries: false
-paths:
-  - "**/*.js"
-  - "**/*.py"
-  - "**/*.html"
+paths-ignore:
+  - '**/tests/**'
+queries:
+  - uses: security-and-quality
