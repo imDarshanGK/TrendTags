@@ -1,0 +1,240 @@
+:root {
+    --youtube-red: #ff0000;
+    --youtube-dark: #282828;
+    --youtube-light: #f9f9f9;
+    --tag-color: #f1f1f1;
+    --tag-hover: #e5e5e5;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--youtube-light);
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.youtube-icon {
+    margin-bottom: 15px;
+}
+
+.youtube-icon i {
+    color: var(--youtube-red);
+    font-size: 3.5rem;
+}
+
+.header h1 {
+    color: var(--youtube-dark);
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.header p {
+    color: #666;
+    margin: 8px 0 0;
+    font-size: 16px;
+}
+
+.search-box {
+    margin-bottom: 25px;
+}
+
+.input-group {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+#topicInput {
+    flex: 1;
+    padding: 14px 18px;
+    border: 2px solid #ddd;
+    border-radius: 6px 0 0 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+#topicInput:focus {
+    border-color: var(--youtube-red);
+    outline: none;
+}
+
+#searchBtn {
+    padding: 0 25px;
+    background-color: var(--youtube-red);
+    color: white;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#searchBtn:hover {
+    background-color: #cc0000;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.options label {
+    font-size: 15px;
+    color: #555;
+}
+
+.options select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+    font-size: 14px;
+}
+
+.results-container {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.source-info {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+    min-height: 100px;
+}
+
+.tag {
+    background-color: var(--tag-color);
+    color: var(--youtube-dark);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+.tag:hover {
+    background-color: var(--tag-hover);
+    transform: translateY(-2px);
+}
+
+.placeholder {
+    text-align: center;
+    width: 100%;
+    color: #999;
+    padding: 40px 0;
+}
+
+.placeholder i {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 15px;
+}
+
+.placeholder p {
+    margin: 0;
+    font-size: 16px;
+}
+
+#copyBtn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--youtube-dark);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#copyBtn:hover {
+    background-color: #1a1a1a;
+}
+
+.hidden {
+    display: none;
+}
+
+.loading {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid var(--youtube-red);
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 30px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    color: #d32f2f;
+    text-align: center;
+    padding: 20px;
+    font-size: 15px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    #topicInput {
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+    
+    #searchBtn {
+        border-radius: 6px;
+        padding: 12px;
+    }
+}
