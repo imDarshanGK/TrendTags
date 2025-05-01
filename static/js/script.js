@@ -71,6 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Show copy button
         copyBtn.classList.remove('hidden');
+
+        // Hide spinner after fetching tags
+         hideLoadingState();
     }
     
     function createTagElement(tagText) {
@@ -112,9 +115,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function showLoadingState() {
-        tagsContainer.innerHTML = '<div class="loading"></div>';
+        tagsContainer.innerHTML = '';
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        loadingSpinner.classList.remove('hidden'); // Show spinner
         sourceInfo.textContent = 'Loading...';
         copyBtn.classList.add('hidden');
+    }
+
+    function hideLoadingState() {
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        loadingSpinner.classList.add('hidden'); // Hide spinner
     }
     
     function showError(message) {
