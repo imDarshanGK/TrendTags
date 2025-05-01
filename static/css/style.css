@@ -238,3 +238,54 @@ body {
         padding: 12px;
     }
 }
+
+/* Loading spinner */
+.loadingSpinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin: 20px auto;
+}
+
+/* Animation for the spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hidden class (to hide spinner initially) */
+.hidden {
+    display: none;
+}
+
+/* Centering the spinner while loading */
+.results-container .loading {
+    display: block;
+    margin: 20px auto;
+}
+
+/* Spinner placement */
+.results-container {
+    text-align: center;
+}
+
+/* Button and loading button styles */
+#copyBtn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#copyBtn.hidden {
+    display: none;
+}
+
+
