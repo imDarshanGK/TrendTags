@@ -24,10 +24,19 @@ cd TrendTags
 
 # Set up environment
 pip install -r requirements.txt
+```
 
-# Add your API key
-echo "YOUTUBE_API_KEY='your_api_key_here'" > config.py
+Create a `.env` file in the root directory of the project and add your API keys.  
+You can use the provided `.env.example` as a reference.
 
+Then edit `.env` and replace placeholder values:
+
+```env
+YOUTUBE_API_KEY=your_actual_youtube_api_key
+RAPIDAPI_KEY=your_actual_rapidapi_key
+```
+
+```bash
 # Run the application
 python app.py
 ```
