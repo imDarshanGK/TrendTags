@@ -1,5 +1,6 @@
 name: "TrendTags Analysis"
 disable-default-queries: false
 queries:
-  - uses: github/codeql/javascript-queries
-  - uses: github/codeql/python-queries
+  - uses: security-and-quality
+  - uses: path/to/custom-query.ql  # Example of adding a custom query
+  - uses: github/codeql-go  # Example of adding a specific query pack
