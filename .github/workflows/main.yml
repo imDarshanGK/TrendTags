@@ -10,17 +10,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v4  # Check out the code
+      - uses: actions/setup-python@v5  # Set up Python environment
         with:
           python-version: '3.11'
-      - run: pip install -r requirements.txt
-      - run: python -m pytest --maxfail=1 --disable-warnings --cov=your_package --cov-report=xml:pytest-report.xml || echo "No tests found"
+      - run: pip install -r requirements.txt  # Install dependencies
+      - run: python -m pytest --maxfail=1 --disable-warnings --cov=your_package --cov-report=xml:pytest-report.xml || echo "No tests found"  # Run tests and generate XML report
 
       # Upload pytest results as an artifact
       - name: Upload pytest results
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
+        if: success() || failure()  # Ensure upload even on failure
+        uses: actions/upload-artifact@v4  # Updated to v4 to avoid deprecation error
         with:
           name: pytest-results
-          path: pytest-report.xml
+          path: pytest-report.xml  # Path to the generated test report
