@@ -1,4 +1,5 @@
 name: "TrendTags Analysis"
 disable-default-queries: false
 queries:
-  - uses: github/codeql/codeql-queries
+  - uses: github/codeql/javascript-queries
+  - uses: github/codeql/python-queries
