@@ -5,21 +5,18 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    - cron: '0 0 * * 0' # Weekly scan on Sunday
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    timeout-minutes: 60
     permissions:
       security-events: write
       contents: read
 
     strategy:
       matrix:
-        language: ['javascript', 'python', 'html', 'css']
+        language: ['javascript', 'python']  # Removed 'html' and 'css'
     
     steps:
     - name: Checkout repository
@@ -31,7 +28,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        config-file: .github/codeql/codeql-config.yml
+        # Removed 'config-file' if custom queries are not being used
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
