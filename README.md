@@ -18,26 +18,38 @@
 - YouTube API key
 
 ### Quick Start
+
+1. Clone the repository and navigate to it in the command line:
 ```bash
 git clone https://github.com/your-username/TrendTags.git
 cd TrendTags
-
-# Set up environment
-pip install -r requirements.txt
 ```
 
-Create a `.env` file in the root directory of the project and add your API keys.  
-You can use the provided `.env.example` as a reference.
+2. Create `.env` file:
+```bash
+cp .env.example .env
+nano .env  # Add your actual API keys
+```
 
 Then edit `.env` and replace placeholder values:
 
 ```env
-YOUTUBE_API_KEY=your_actual_youtube_api_key
-RAPIDAPI_KEY=your_actual_rapidapi_key
+# SECURITY WARNING!
+# 1. Rename this to .env
+# 2. Never commit real keys
+# 3. Get keys from Google Cloud Console
+
+YOUTUBE_API_KEY=your_key_here
+RAPIDAPI_KEY=your_key_here
 ```
 
+3. Set up environment:
 ```bash
-# Run the application
+pip install -r requirements.txt
+```
+
+4. Run the application:
+```bash
 python app.py
 ```
 
@@ -76,4 +88,3 @@ We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
