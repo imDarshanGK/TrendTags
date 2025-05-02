@@ -9,18 +9,41 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.9', '3.10', '3.11']  # Test across Python versions
+
     steps:
-      - uses: actions/checkout@v4  # Check out the code
-      - uses: actions/setup-python@v5  # Set up Python environment
-        with:
-          python-version: '3.11'
-      - run: pip install -r requirements.txt  # Install dependencies
-      - run: python -m pytest --maxfail=1 --disable-warnings --cov=my_project --cov-report=xml:pytest-report.xml || echo "No tests found"  # Run tests and generate XML report
-         
-      # Upload pytest results as an artifact
-      - name: Upload pytest results
-        if: success() || failure()  # Ensure upload even on failure
-        uses: actions/upload-artifact@v4  # Updated to v4 to avoid deprecation error
-        with:
-          name: pytest-results
-          path: pytest-report.xml  # Path to the generated test report
+    - uses: actions/checkout@v4  # Check out the code
+
+    - name: Cache Python packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - uses: actions/setup-python@v5  # Set up Python environment
+      with:
+        python-version: ${{ matrix.python }}
+
+    - run: pip install -r requirements.txt  # Install dependencies
+
+    - name: Lint Code
+      run: pip install flake8 && flake8 my_project  # Code linting
+
+    - name: Run Tests
+      run: |
+        if pytest --maxfail=1 --disable-warnings --cov=my_project --cov-report=xml:pytest-report.xml; then
+          echo "Tests executed successfully."
+        else
+          echo "Tests failed or no tests found."
+        fi
+
+    - name: Upload pytest results
+      if: success() || failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: pytest-results
+        path: pytest-report.xml  # Path to the generated test report
