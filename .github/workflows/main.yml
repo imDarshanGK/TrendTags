@@ -15,7 +15,14 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt  # Install dependencies
-      - run: python -m pytest --maxfail=1 --disable-warnings --cov=my_project --cov-report=xml:pytest-report.xml || echo "No tests found"  # Run tests and generate XML report
+      - run: |
+          python -m pytest --maxfail=1 --disable-warnings --cov=my_project --cov-report=xml:pytest-report.xml
+          exit_code=$?
+          if [ $exit_code -eq 5 ]; then
+              echo "No tests found"
+          else
+              exit $exit_code
+          fi  # Run tests and handle "no tests found" case explicitly
 
       # Upload pytest results as an artifact
       - name: Upload pytest results
