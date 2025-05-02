@@ -2,3 +2,6 @@ name: "TrendTags Analysis"
 disable-default-queries: false
 queries:
   - uses: security-and-quality
+languages:
+  - javascript
+  - python
