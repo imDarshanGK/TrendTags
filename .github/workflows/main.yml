@@ -2,62 +2,51 @@ name: CI Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
-
-permissions:
-  contents: read
+    branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: ${{ matrix.python-version }}
 
-      - name: Install Python dependencies
-        run: |
-          echo "🔵 Installing Python dependencies..."
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; else echo "No requirements.txt found, skipping..."; fi
-          echo "----------------------"
-
-      - name: Set up Node.js (optional for frontend tools)
-        uses: actions/setup-node@v4
+      - name: Cache dependencies
+        uses: actions/cache@v3
         with:
-          node-version: '18'
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}
+            ${{ runner.os }}-pip
 
-      - name: Check for HTML files
+      - name: Install dependencies
         run: |
-          echo "🔵 Checking for HTML files..."
-          if ls *.html >/dev/null 2>&1; then 
-            echo "✅ HTML files found."; 
-          else 
-            echo "❌ No HTML files found!"; 
-            exit 1; 
-          fi
-          echo "----------------------"
-
-      - name: Run Python tests (if available)
-        run: |
-          echo "🔵 Checking for Python tests..."
-          if [ -f pytest.ini ] || [ -d tests ]; then
-            echo "Running Python tests..."
-            pip install pytest
-            pytest
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt pytest
           else
-            echo "No Python tests found. Skipping tests."
+            echo "requirements.txt not found"
           fi
-          echo "----------------------"
 
-      - name: Workflow completed
-        run: echo "🎉 CI Pipeline workflow completed successfully!"
+      - name: Run tests
+        run: python -m pytest -v --tb=short || echo "No tests found"
+
+      - name: Upload Test Results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ./test-results/

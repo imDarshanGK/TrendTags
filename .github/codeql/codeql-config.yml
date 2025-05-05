@@ -1,0 +1,6 @@
+name: "TrendTags Analysis"
+disable-default-queries: false
+queries:
+  - uses: security-and-quality  # Default security and quality queries
+  - uses: github/codeql-python  # Python-specific query pack
+  - uses: github/codeql-javascript  # JavaScript-specific query pack
