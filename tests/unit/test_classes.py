@@ -1,4 +1,4 @@
-import app
+from src import utilities
 
 
 class TestRemoveDuplicateTags:
@@ -16,7 +16,7 @@ class TestRemoveDuplicateTags:
         ]
 
         # When
-        deduplicated_list = app.remove_duplicate_items(duplicates_list)
+        deduplicated_list = utilities.remove_duplicate_items(duplicates_list)
 
         # Then
         assert len(duplicates_list) == 8
@@ -35,7 +35,7 @@ class TestRemoveDuplicateTags:
         ]
 
         # When
-        deduplicated_list = app.remove_duplicate_items(unique_list)
+        deduplicated_list = utilities.remove_duplicate_items(unique_list)
 
         # Then
         assert len(unique_list) == 6
