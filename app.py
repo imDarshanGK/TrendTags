@@ -76,9 +76,31 @@ def get_youtube_tags(topic, max_results=30):
             all_tags.extend(extract_keywords(description, topic))
     
     # Step 3: Filter and rank tags
-    filtered_tags = filter_and_rank_tags(all_tags, topic, max_results)
+    deduplicated_tags = remove_duplicate_tags(all_tags)
+    filtered_tags = filter_and_rank_tags(deduplicated_tags, topic, max_results)
     
     return filtered_tags
+
+
+def remove_duplicate_tags(tags: list[str]) -> list[str]:
+    """Ensures tag list only contains unique tags by removing duplicates from
+    the provided list of tags.
+
+    Args:
+        tags (list[str]): A list of tags.
+
+    Returns:
+        list[str]: A list of tags with duplicates removed.
+    """
+    
+    # Dictionaries can only have unique keys, so we can leverage that to remove
+    # duplicates.
+    deduplicated_list = list(dict.fromkeys(tags))
+    
+    # TODO: Add check to make sure list is not empty after deduplicating
+    
+    return deduplicated_list
+
 
 def process_tags(tags, topic):
     processed = []
