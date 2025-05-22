@@ -5,6 +5,8 @@ import re
 from collections import Counter
 import config
 
+from src import utilities
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -76,9 +78,11 @@ def get_youtube_tags(topic, max_results=30):
             all_tags.extend(extract_keywords(description, topic))
     
     # Step 3: Filter and rank tags
-    filtered_tags = filter_and_rank_tags(all_tags, topic, max_results)
+    deduplicated_tags = utilities.remove_duplicate_items(all_tags)
+    filtered_tags = filter_and_rank_tags(deduplicated_tags, topic, max_results)
     
     return filtered_tags
+
 
 def process_tags(tags, topic):
     processed = []
