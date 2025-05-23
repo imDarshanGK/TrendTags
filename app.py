@@ -5,8 +5,6 @@ import re
 from collections import Counter
 import config
 
-from src import utilities
-
 app = Flask(__name__)
 
 @app.route('/')
