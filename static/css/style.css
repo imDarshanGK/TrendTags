@@ -11,7 +11,7 @@
 }
 
 body {
-  font-family: "Roboto", Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   background-color: var(--youtube-light);
   margin: 0;
   padding: 20px;
