@@ -90,9 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Refresh Button
-  if (refreshBtn) {
-    refreshBtn.addEventListener("click", fetchTags);
-  }
+  refreshBtn.addEventListener("click", fetchTags);
 
   function copyAllTags() {
     const tags = Array.from(document.querySelectorAll(".tag"))
