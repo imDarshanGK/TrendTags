@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tagsContainer.appendChild(tagElement);
   }
 
-  //Refresh Button
+  // Refresh Button
   refreshBtn.addEventListener("click", fetchTags);
 
   function copyAllTags() {
