@@ -78,8 +78,8 @@ def get_youtube_tags(topic, max_results=30):
             all_tags.extend(extract_keywords(description, topic))
     
     # Step 3: Filter and rank tags
-    deduplicated_tags = utilities.remove_duplicate_items(all_tags)
-    filtered_tags = filter_and_rank_tags(deduplicated_tags, topic, max_results)
+    tag_frequencies = Counter(all_tags)
+    filtered_tags = filter_and_rank_tags(tag_frequencies, topic, max_results)
     
     return filtered_tags
 
