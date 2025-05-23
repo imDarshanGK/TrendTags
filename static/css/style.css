@@ -117,7 +117,7 @@ body {
   font-size: 14px;
 }
 
-#refreshBtn {
+.refresh-btn {
   cursor: pointer;
 }
 
