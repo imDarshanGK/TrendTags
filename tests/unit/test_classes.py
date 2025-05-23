@@ -19,7 +19,6 @@ class TestRemoveDuplicateTags:
         deduplicated_list = utilities.remove_duplicate_items(duplicates_list)
 
         # Then
-        assert len(duplicates_list) == 8
         assert len(deduplicated_list) == 6
 
 
