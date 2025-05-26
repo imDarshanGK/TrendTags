@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        language: ['javascript', 'python']  # Removed 'html' and 'css'
+        language: ['javascript', 'python']
     
     steps:
     - name: Checkout repository
@@ -28,7 +28,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        # Removed 'config-file' if custom queries are not being used
+        config-file: .github/codeql/codeql-config.yml
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
