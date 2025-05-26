@@ -80,7 +80,6 @@ def get_youtube_tags(topic, max_results=30):
     
     return filtered_tags
 
-
 def process_tags(tags, topic):
     processed = []
     for tag in tags:
