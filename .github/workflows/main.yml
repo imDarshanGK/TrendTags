@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         # TODO: Python 3.9 is EOL in October 2025, it should be removed after that date
         # TODO: Python 3.10 is EOL in October 2026, it should be removed after that date
 
@@ -36,12 +36,18 @@ jobs:
             ${{ runner.os }}-pip
 
       - name: Install dependencies
-        run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          else
-            echo "requirements.txt not found"
-          fi
+  run: |
+    if [ -f requirements.txt ]; then
+      PY_VER=$(python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+      if [[ "$PY_VER" == "3.9" ]]; then
+        echo "Skipping install on Python $PY_VER due to click==8.2.1 requiring >= 3.10"
+      else
+        pip install -r requirements.txt
+      fi
+    else
+      echo "requirements.txt not found"
+    fi
+
 
       - name: Run tests
         run: python -m pytest -v --tb=short --cov-report term-missing --cov=. tests/ || echo "No tests found"

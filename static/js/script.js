@@ -6,9 +6,52 @@ document.addEventListener("DOMContentLoaded", function () {
   const sourceInfo = document.getElementById("sourceInfo");
   const copyBtn = document.getElementById("copyBtn");
   const refreshBtn = document.getElementById("refreshBtn");
+  const toggleBtn = document.getElementById("toggleCheck");
 
   // Initialize with empty state
   initializeEmptyState();
+
+  //Adding event to the toggle btn
+  toggleBtn.addEventListener("click", changeMode);
+  //Toggle for light/dark mode
+  function changeMode() {
+    //getting root
+    const root = document.documentElement;
+
+    const youtubeDark = getComputedStyle(root)
+      .getPropertyValue("--youtube-dark")
+      .trim();
+    //validating youtubeDark variable and change the mode according to that
+    if (youtubeDark == "#282828") {
+      root.style.setProperty("--youtube-dark", "white");
+      root.style.setProperty("--youtube-light", "#181818");
+      root.style.setProperty("--tag-color", "#2c2c2c");
+      root.style.setProperty("--tag-hover", "#3a3a3a");
+      root.style.setProperty("--container-color", "black");
+      document.getElementById("topicInput").style.backgroundColor =
+        "transparent";
+      document.getElementById("maxResults").style.backgroundColor =
+        "transparent";
+      document.getElementById("maxResults").style.color = "white";
+
+      document.getElementById("topicInput").style.color = "white";
+      document.getElementById("copyBtn").style.border = "1px solid white";
+    } else {
+      root.style.setProperty("--youtube-dark", "#282828");
+      root.style.setProperty("--youtube-light", "white");
+      root.style.setProperty("--tag-color", "#f1f1f1");
+      root.style.setProperty("--tag-hover", "#e5e5e5");
+      root.style.setProperty("--container-color", "white");
+      document.getElementById("topicInput").style.backgroundColor =
+        "transparent";
+      document.getElementById("maxResults").style.backgroundColor =
+        "transparent";
+      document.getElementById("maxResults").style.color = "black";
+
+      document.getElementById("topicInput").style.color = "black";
+      document.getElementById("copyBtn").style.border = "1px solid white";
+    }
+  }
 
   searchBtn.addEventListener("click", fetchTags);
 

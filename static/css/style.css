@@ -4,6 +4,7 @@
   --youtube-light: #f9f9f9;
   --tag-color: #f1f1f1;
   --tag-hover: #e5e5e5;
+  --container-color: white;
 }
 
 * {
@@ -11,7 +12,7 @@
 }
 
 body {
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
   background-color: var(--youtube-light);
   margin: 0;
   padding: 20px;
@@ -19,11 +20,180 @@ body {
   line-height: 1.6;
 }
 
+.outer-container {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+/* toggle */
+.toggle {
+  display: inline-block;
+  position: relative;
+}
+
+.toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
+  border: 0;
+}
+
+.toggle-label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 33px;
+  background: #2b2b2b;
+  border: 5px solid #5b5b5b;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateX(-72%);
+  width: 15px;
+  height: 15px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: inset 10px 0 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
+}
+
+.toggle-thumb::before {
+  top: 7px;
+  left: 7px;
+  width: 9px;
+  height: 9px;
+  opacity: 0.6;
+}
+
+.toggle-thumb::after {
+  bottom: 8px;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
+.toggle-sparkle {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: #fff;
+  border-radius: 50%;
+  animation: flicker 0.8s infinite -0.6s;
+}
+
+.toggle-sparkle::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.toggle-sparkle::before {
+  top: -20px;
+  left: 10px;
+  animation: flicker 0.6s infinite;
+}
+
+.toggle-sparkle::after {
+  top: -7px;
+  left: 30px;
+  animation: flicker 0.6s infinite -0.2s;
+}
+
+@keyframes flicker {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.toggle-input:checked + .toggle-label {
+  background: #8fb5f5;
+  border-color: #347cf8;
+}
+
+.toggle-input:checked + .toggle-label .toggle-thumb {
+  background: #ecd21f;
+  box-shadow: none;
+  transform: translate(-50%, -50%) translateX(72%);
+}
+
+.toggle-input:checked + .toggle-label .toggle-thumb::before,
+.toggle-input:checked + .toggle-label .toggle-thumb::after {
+  display: none;
+}
+
+.toggle-input:checked + .toggle-label .toggle-sparkle {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  animation: floatCloud 8s linear infinite;
+}
+
+.toggle-input:checked + .toggle-label .toggle-sparkle::before {
+  width: 8px;
+  height: 8px;
+  left: -8px;
+  bottom: 0;
+  top: auto;
+  animation: none;
+}
+
+.toggle-input:checked + .toggle-label .toggle-sparkle::after {
+  width: 10px;
+  height: 10px;
+  left: 16px;
+  bottom: 0;
+  top: auto;
+  animation: none;
+}
+
+.toggle-input:checked + .toggle-label .toggle-sparkle,
+.toggle-input:checked + .toggle-label .toggle-sparkle::before,
+.toggle-input:checked + .toggle-label .toggle-sparkle::after {
+  border-radius: 50px 50px 0 0;
+}
+
+.toggle-input:checked + .toggle-label .toggle-sparkle::after {
+  border-bottom-right-radius: 50px;
+}
+
+@keyframes floatCloud {
+  0% {
+    transform: translate(0%, -50%);
+  }
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(0%, -50%);
+  }
+}
+
+.toggle-dark-light {
+  cursor: pointer;
+}
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 25px;
-  background-color: white;
+  background-color: var(--container-color);
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
@@ -100,25 +270,22 @@ body {
 .options {
   display: flex;
   align-items: center;
-  gap: 12px;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .options label {
   font-size: 15px;
-  color: #555;
+  color: #606060;
 }
 
 .options select {
   padding: 8px 12px;
   border-radius: 4px;
+
   border: 1px solid #ddd;
   background-color: white;
   font-size: 14px;
-}
-
-.refresh-btn {
-  cursor: pointer;
 }
 
 .results-container {
@@ -180,7 +347,7 @@ body {
 #copyBtn {
   width: 100%;
   padding: 12px;
-  background-color: var(--youtube-dark);
+  background-color: black;
   color: white;
   border: none;
   border-radius: 6px;
@@ -229,6 +396,11 @@ body {
 }
 
 @media (max-width: 600px) {
+  .outer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
   .container {
     padding: 20px;
   }
