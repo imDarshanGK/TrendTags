@@ -1,7 +1,2 @@
-# TrendTags CodeQL config
 name: "TrendTags Analysis"
 disable-default-queries: false
-queries:
-  - uses: github/codeql-queries@latest
-  - uses: github/codeql/python-queries@latest
-  - uses: github/codeql/javascript-queries@latest
