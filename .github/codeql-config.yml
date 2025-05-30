@@ -1,3 +1,4 @@
+# TrendTags CodeQL config
 name: "TrendTags Analysis"
 disable-default-queries: false
 queries:
