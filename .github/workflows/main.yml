@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ['3.13']
+        python-version: ['3.12'] # Use 3.13 only if you want pre-release testing
 
     steps:
       - name: Checkout repository
