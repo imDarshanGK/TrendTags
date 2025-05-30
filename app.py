@@ -1,11 +1,20 @@
-from flask import Flask, render_template, request, jsonify
-import requests
-from datetime import datetime, timedelta
+import logging
 import re
 from collections import Counter
-import config
+from datetime import datetime, timedelta
+
+import requests
+from flask import Flask, jsonify, render_template, request
+
+from src import config, logger_utils, utilities
+from pathlib import Path
 
 app = Flask(__name__)
+
+logger = logging.getLogger(__name__)
+
+logging_config_path = Path(__file__).parent / "config" / "logging_config.json"
+logger_utils.create_custom_logger(str(logging_config_path))
 
 @app.route('/')
 def index():
