@@ -16,6 +16,9 @@ logger = logging.getLogger(__name__)
 logging_config_path = Path(__file__).parent / "config" / "logging_config.json"
 logger_utils.create_custom_logger(str(logging_config_path))
 
+# Set a delineator for a new application run in log file
+logger.debug("\n" + "=" * 60 + " NEW LOG RUN " + "=" * 60 + "\n")
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -27,6 +30,8 @@ def get_tags():
     
     try:
         if not topic:
+            logger.error("No topic provided in request")
+            logger.error("Request data: %s", request.form)
             return jsonify({"error": "Please enter a topic"}), 400
         
         # Get tags from YouTube API
@@ -38,6 +43,7 @@ def get_tags():
         })
     
     except Exception as e:
+        logger.error("Error getting tags: %s", str(e))
         return jsonify({"error": str(e)}), 500
 
 def get_youtube_tags(topic, max_results=30):
@@ -54,6 +60,7 @@ def get_youtube_tags(topic, max_results=30):
     }
     
     search_response = requests.get(search_url, params=params)
+    logger.debug("Querying YouTube API - Response: %s", search_response.status_code)
     videos = search_response.json().get('items', [])
     
     # Step 2: Get tags from each video
@@ -69,6 +76,7 @@ def get_youtube_tags(topic, max_results=30):
             'key': config.YOUTUBE_API_KEY
         }
         videos_response = requests.get(videos_url, params=videos_params)
+        logger.debug("Querying YouTube API for video details - Response: %s", videos_response.status_code)
         
         for item in videos_response.json().get('items', []):
             snippet = item.get('snippet', {})
