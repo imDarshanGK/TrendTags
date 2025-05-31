@@ -32,8 +32,8 @@ def get_tags():
         
     except utilities.TooManyRequestsError as e: # noqa F841
         # Log the error with logger added in https://github.com/imDarshanGK/TrendTags/pull/55
-        # TODO: Uncomment the logger line below and noqa above when logger is added
-        #logger.error(f"Too many requests error: {str(e)}")
+        # TODO: Uncomment the logger line below and noqa above when logger is added and remove `# noqa F841`
+        #logger.exception(f"Too many requests error: {str(e)}")
         return jsonify({e.status_code: e.message}), e.status_code
     
     except utilities.NonStandardResponseCodeError as e:

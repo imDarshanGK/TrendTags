@@ -35,7 +35,7 @@ def check_response_status(*args, **kwargs) -> requests.Response:
     Raises:
         TooManyRequestsError: Raises a TooManyRequestsError if the status code 
             is 429 and the user has been rate limited by the API.
-        Exception: Raises a generic Exception for other non-200 status codes.
+        NonStandardResponseCodeError: Raises a generic Exception for other non-200 status codes.
 
     Returns:
         requests.Response: Returns the response object if the request is successful.
@@ -49,7 +49,7 @@ def check_response_status(*args, **kwargs) -> requests.Response:
         )
     
     if response.status_code != 200:
-        # TODO: Handle other error codes as needed
+        # TODO: #60 Handle other error codes as needed
         raise NonStandardResponseCodeError(
             status_code=response.status_code,
             message=response.text
