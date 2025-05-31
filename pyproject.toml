@@ -55,12 +55,11 @@ exclude = [
     "venv",
 ]
 
-# Allow lines to be as long as 120
-line-length = 120
+line-length = 88
 indent-width = 4
 
 [tool.ruff.lint.pycodestyle]
-max-line-length = 120
+max-line-length = 88
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`) codes by default.
@@ -79,6 +78,15 @@ select = [
     "SIM",
     # isort
     "I",
+    # pep8-naming
+    "N",
+    #pydoclint
+    "DOC",
+    # flake8-unused-arguments
+    "ARG",
+    #flake8-use-pathlib
+    "PTH",
+    
 ]
 ignore = []
 
