@@ -17,7 +17,7 @@ logging_config_path = Path(__file__).parent / "config" / "logging_config.json"
 try:
     logger_utils.create_custom_logger(str(logging_config_path))
 except FileNotFoundError:
-    logger.error(
+    logger.exception(
         "Logging configuration file incorrectly specified. "
         + "Ensure log directory path is at root level: %s", logging_config_path)
     raise
@@ -36,8 +36,7 @@ def get_tags():
     
     try:
         if not topic:
-            logger.error("No topic provided in request")
-            logger.error("Request data: %s", request.form)
+            logger.error("No topic provided in request. Request data: %s", request.form)
             return jsonify({"error": "Please enter a topic"}), 400
         
         # Get tags from YouTube API
@@ -49,7 +48,7 @@ def get_tags():
         })
     
     except Exception as e:
-        logger.error("Error getting tags: %s", str(e))
+        logger.exception("Error getting tags: %s", str(e))
         return jsonify({"error": str(e)}), 500
 
 def get_youtube_tags(topic, max_results=30):

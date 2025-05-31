@@ -4,8 +4,16 @@ import pathlib
 
 
 def create_custom_logger(config_path: str) -> None:
-    logging.getLogger(__name__)
+    """
+    Create a custom logger based on the configuration file provided.
 
+    Args:
+        config_path (str): The path for the configuration file in JSON format.
+        
+    Raises:
+        FileNotFoundError: If the configuration file does not exist.
+        KeyError: If the expected keys are not found in the configuration file.
+    """
     config_file = pathlib.Path(config_path)
 
     with open(config_file) as f_in:
