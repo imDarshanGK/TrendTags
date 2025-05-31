@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, jsonify
-import requests
-from datetime import datetime, timedelta
 import re
 from collections import Counter
+from datetime import datetime, timedelta
+
+from flask import Flask, jsonify, render_template, request
+
 import config
+from src import utilities
 
 app = Flask(__name__)
 
@@ -27,6 +29,15 @@ def get_tags():
             "tags": tags,
             "source": "YouTube API"
         })
+        
+    except utilities.TooManyRequestsError as e: # noqa F841
+        # Log the error with logger added in https://github.com/imDarshanGK/TrendTags/pull/55
+        # TODO: Uncomment the logger line below and noqa above when logger is added and remove `# noqa F841`
+        #logger.exception(f"Too many requests error: {str(e)}")
+        return jsonify({e.status_code: e.message}), e.status_code
+    
+    except utilities.NonStandardResponseCodeError as e:
+        return jsonify({e.status_code: e.message}), e.status_code
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -44,7 +55,7 @@ def get_youtube_tags(topic, max_results=30):
         'publishedAfter': (datetime.now() - timedelta(days=30)).isoformat() + 'Z'
     }
     
-    search_response = requests.get(search_url, params=params)
+    search_response = utilities.check_response_status(search_url, params=params)
     videos = search_response.json().get('items', [])
     
     # Step 2: Get tags from each video
@@ -59,7 +70,7 @@ def get_youtube_tags(topic, max_results=30):
             'id': ','.join(video_ids),
             'key': config.YOUTUBE_API_KEY
         }
-        videos_response = requests.get(videos_url, params=videos_params)
+        videos_response = utilities.check_response_status(videos_url, params=videos_params)
         
         for item in videos_response.json().get('items', []):
             snippet = item.get('snippet', {})
