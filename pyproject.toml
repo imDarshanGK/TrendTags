@@ -86,7 +86,8 @@ select = [
     "ARG",
     #flake8-use-pathlib
     "PTH",
-    
+    # PEP 257 docstring conventions
+    "D213",    
 ]
 ignore = []
 
