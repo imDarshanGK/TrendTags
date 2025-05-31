@@ -3,7 +3,7 @@ name = "trendtags"
 version = "0.1.0"
 description = "A platform to generate relevant tags"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "certifi==2025.4.26",
     "charset-normalizer==2.0.12",
