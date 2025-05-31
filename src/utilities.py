@@ -9,7 +9,6 @@ def remove_duplicate_items(raw_list: list[str]) -> list[str]:
     Returns:
         list[str]: A list of strings with duplicates removed.
     """
-    
     deduplicated_list = list(dict.fromkeys(raw_list))
-        
+
     return deduplicated_list
