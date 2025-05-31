@@ -34,7 +34,10 @@ def get_tags():
         # Log the error with logger added in https://github.com/imDarshanGK/TrendTags/pull/55
         # TODO: Uncomment the logger line below and noqa above when logger is added
         #logger.error(f"Too many requests error: {str(e)}")
-        return jsonify({"error": "Too many requests. Please try again later."}), 429
+        return jsonify({e.status_code: e.message}), e.status_code
+    
+    except utilities.NonStandardResponseCodeError as e:
+        return jsonify({e.status_code: e.message}), e.status_code
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
