@@ -9,7 +9,6 @@ dependencies = [
     "charset-normalizer==2.0.12",
     "click==8.2.1",
     "coverage==7.8.2",
-    "dotenv>=0.9.9",
     "flask==2.0.1",
     "idna==3.10",
     "iniconfig==2.1.0",
