@@ -17,7 +17,7 @@ def create_custom_logger(config_path: str) -> None:
     # directory name can be anything.
     log_directory = pathlib.Path(config["handlers"]["file"]["filename"].split("/")[0])
     if not log_directory.exists():
-       log_directory.mkdir()
+       log_directory.mkdir(parents=False, exist_ok=True)
 
     logging.config.dictConfig(config)
 

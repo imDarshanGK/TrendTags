@@ -14,7 +14,13 @@ app = Flask(__name__)
 logger = logging.getLogger(__name__)
 
 logging_config_path = Path(__file__).parent / "config" / "logging_config.json"
-logger_utils.create_custom_logger(str(logging_config_path))
+try:
+    logger_utils.create_custom_logger(str(logging_config_path))
+except FileNotFoundError:
+    logger.error(
+        "Logging configuration file incorrectly specified. "
+        + "Ensure log directory path is at root level: %s", logging_config_path)
+    raise
 
 # Set a delineator for a new application run in log file
 logger.debug("\n" + "=" * 60 + " NEW LOG RUN " + "=" * 60 + "\n")
