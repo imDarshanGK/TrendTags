@@ -142,7 +142,7 @@ def filter_and_rank_tags(tags, topic, max_results):
     scored_tags.sort(reverse=True, key=lambda x: x[0])
 
     # Get top tags
-    top_tags = [tag for (score, tag) in scored_tags[:max_results * 2]]  # Get extra for filtering
+    top_tags = [tag for (score, tag) in scored_tags[:max_results * 2]]
 
     # Remove similar tags (avoid duplicates like "cool gadget" and "cool gadgets")
     final_tags = []
