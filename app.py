@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import re
 from collections import Counter
 import config
+import os
 
 app = Flask(__name__)
 
@@ -174,4 +175,5 @@ def filter_and_rank_tags(tags, topic, max_results):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(debug=debug)
