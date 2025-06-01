@@ -1,0 +1,5 @@
+extraction:
+  python:
+    index:
+      # Use requirements.txt for dependencies
+      requirements: requirements.txt
