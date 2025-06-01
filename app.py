@@ -135,6 +135,7 @@ def filter_and_rank_tags(tags, topic, max_results):
         score += len(tag)   # Length weight
         if topic.lower() in tag:
             score += 20     # Topic match bonus
+
         scored_tags.append((score, tag))
 
     # Sort by score descending
@@ -148,6 +149,7 @@ def filter_and_rank_tags(tags, topic, max_results):
     seen_tags = set()
 
     for tag in top_tags:
+        # Check if similar tag already exists
         words = set(tag.split())
         is_duplicate = False
 
