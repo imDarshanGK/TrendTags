@@ -1,7 +1,8 @@
+import unittest
 from src import utilities
 
 
-class TestRemoveDuplicateTags:
+class TestRemoveDuplicateTags(unittest.TestCase):
     def test_remove_duplicate_items(self):
         # Given
         duplicates_list = [
@@ -14,13 +15,10 @@ class TestRemoveDuplicateTags:
             "tag5",
             "tag6",
         ]
-
         # When
         deduplicated_list = utilities.remove_duplicate_items(duplicates_list)
-
         # Then
         assert len(deduplicated_list) == 6
-
 
     def test_remove_duplicate_items_unique(self):
         # Given
@@ -32,9 +30,7 @@ class TestRemoveDuplicateTags:
             "tag5",
             "tag6",
         ]
-
         # When
         deduplicated_list = utilities.remove_duplicate_items(unique_list)
-
         # Then
         assert deduplicated_list == unique_list
