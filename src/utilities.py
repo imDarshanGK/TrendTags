@@ -1,15 +1,5 @@
-def remove_duplicate_items(raw_list: list[str]) -> list[str]:
-    """
-    Ensures list only contains unique items by removing duplicates from
-    the provided list.
+from typing import List
 
-    Args:
-        raw_list (list[str]): A 1-dimensional list of strings.
-
-    Returns:
-        list[str]: A list of strings with duplicates removed.
-    """
-    
-    deduplicated_list = list(dict.fromkeys(raw_list))
-        
-    return deduplicated_list
+def remove_duplicate_items(raw_list: List[str]) -> List[str]:
+    # your function code here
+    pass
