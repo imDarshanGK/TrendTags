@@ -156,7 +156,8 @@ def filter_and_rank_tags(tags, topic, max_results):
         for existing_tag in seen_tags:
             existing_words = set(existing_tag.split())
             similarity = (
-                len(words & existing_words) / len(words | existing_words)
+                len(words & existing_words) /
+                len(words | existing_words)
             )
             if similarity > 0.7:  # 70% similar
                 is_duplicate = True
