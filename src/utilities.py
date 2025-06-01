@@ -1,5 +1,6 @@
 from typing import List
 
+
 def remove_duplicate_items(raw_list: List[str]) -> List[str]:
     """Remove duplicate items from a list while preserving order."""
     seen = set()
