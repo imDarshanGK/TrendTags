@@ -1,12 +1,32 @@
-from flask import Flask, render_template, request, jsonify
-import requests
-from datetime import datetime, timedelta
+import logging
+import os
 import re
 from collections import Counter
-import config
-import os
+from datetime import datetime, timedelta
+from pathlib import Path
+
+import requests
+from flask import Flask, jsonify, render_template, request
+
+from src import config, logger_utils
 
 app = Flask(__name__)
+
+logger = logging.getLogger(__name__)
+
+logging_config_path = Path(__file__).parent / "config" / "logging_config.json"
+try:
+    logger_utils.create_custom_logger(str(logging_config_path))
+except FileNotFoundError:
+    logger.exception(
+        "Logging configuration file incorrectly specified. "
+        "Ensure log directory path is at root level: %s",
+        logging_config_path,
+    )
+    raise
+
+# Set a delineator for a new application run in log file
+logger.debug("\n%s NEW LOG RUN %s\n", "=" * 60, "=" * 60)
 
 
 @app.route('/')
@@ -21,6 +41,7 @@ def get_tags():
 
     try:
         if not topic:
+            logger.error("No topic provided in request. Request data: %s", request.form)
             return jsonify({"error": "Please enter a topic"}), 400
 
         # Get tags from YouTube API
@@ -28,10 +49,11 @@ def get_tags():
 
         return jsonify({
             "tags": tags,
-            "source": "YouTube API"
+            "source": "YouTube API",
         })
 
     except Exception as e:
+        logger.exception("Error getting tags.")
         return jsonify({"error": str(e)}), 500
 
 
@@ -45,10 +67,11 @@ def get_youtube_tags(topic, max_results=30):
         'order': 'relevance',
         'maxResults': min(50, max_results * 2),  # Get more to filter later
         'key': config.YOUTUBE_API_KEY,
-        'publishedAfter': (datetime.now() - timedelta(days=30)).isoformat() + 'Z'
+        'publishedAfter': (datetime.now() - timedelta(days=30)).isoformat() + 'Z',
     }
 
     search_response = requests.get(search_url, params=params)
+    logger.debug("Querying YouTube API - Response: %s", search_response.status_code)
     videos = search_response.json().get('items', [])
 
     # Step 2: Get tags from each video
@@ -61,9 +84,14 @@ def get_youtube_tags(topic, max_results=30):
         videos_params = {
             'part': 'snippet',
             'id': ','.join(video_ids),
-            'key': config.YOUTUBE_API_KEY
+            'key': config.YOUTUBE_API_KEY,
         }
         videos_response = requests.get(videos_url, params=videos_params)
+
+        logger.debug(
+            "Querying YouTube API for video details - Response: %s",
+            videos_response.status_code,
+            )
 
         for item in videos_response.json().get('items', []):
             snippet = item.get('snippet', {})
