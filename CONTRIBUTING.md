@@ -6,7 +6,7 @@ Thank you for your interest in contributing to TrendTags! Here's how you can hel
 
 ### Prerequisites
 
-- Python 3.8+
+- Python >=3.12
 - Git
 - Basic understanding of Flask (for backend contributions)
 
