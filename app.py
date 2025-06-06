@@ -5,10 +5,9 @@ from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
 
-import requests
 from flask import Flask, jsonify, render_template, request
 
-from src import config, logger_utils
+from src import config, errors, logger_utils, utilities
 
 app = Flask(__name__)
 
@@ -52,6 +51,17 @@ def get_tags():
             "source": "YouTube API",
         })
 
+    except errors.TooManyRequestsError as e:
+        # Log the error with logger added in
+        # https://github.com/imDarshanGK/TrendTags/pull/55
+        # TODO: Uncomment the logger line below and noqa above when logger is added
+        # and remove `noqa F841`
+        # logger.exception(f"Too many requests error: {str(e)}")
+        return jsonify({e.status_code: e.message}), e.status_code
+
+    except errors.NonStandardResponseCodeError as e:
+        return jsonify({e.status_code: e.message}), e.status_code
+
     except Exception as e:
         logger.exception("Error getting tags.")
         return jsonify({"error": str(e)}), 500
@@ -70,8 +80,9 @@ def get_youtube_tags(topic, max_results=30):
         'publishedAfter': (datetime.now() - timedelta(days=30)).isoformat() + 'Z',
     }
 
-    search_response = requests.get(search_url, params=params)
+    search_response = utilities.check_response_status(search_url, params=params)
     logger.debug("Querying YouTube API - Response: %s", search_response.status_code)
+
     videos = search_response.json().get('items', [])
 
     # Step 2: Get tags from each video
@@ -86,7 +97,10 @@ def get_youtube_tags(topic, max_results=30):
             'id': ','.join(video_ids),
             'key': config.YOUTUBE_API_KEY,
         }
-        videos_response = requests.get(videos_url, params=videos_params)
+
+        videos_response = utilities.check_response_status(
+            videos_url, params=videos_params,
+        )
 
         logger.debug(
             "Querying YouTube API for video details - Response: %s",
@@ -115,13 +129,15 @@ def get_youtube_tags(topic, max_results=30):
 
 def process_tags(tags, topic):
     processed = []
+    minimum_tag_length = 3
+
     for tag in tags:
         # Clean tag
         tag = tag.lower().strip()
         tag = re.sub(r'[^\w\s-]', '', tag)  # Remove special chars except - and space
 
         # Skip if too short or doesn't contain topic
-        if len(tag) < 3 or topic.lower() not in tag:
+        if len(tag) < minimum_tag_length or topic.lower() not in tag:
             continue
 
         processed.append(tag)
@@ -137,15 +153,17 @@ def extract_keywords(text, topic):
     text = re.sub(r'[^\w\s-]', ' ', text)  # Replace special chars with space
     words = re.findall(r'\b[\w-]+\b', text)  # Split into words
 
+    minimum_word_length_threshold = 3
+
     # Filter relevant words
     keywords = []
     for word in words:
         if (
-            len(word) > 3 and
+            len(word) > minimum_word_length_threshold and
             topic.lower() in word and
             word not in ['youtube', 'video', 'watch', 'channel']
         ):
-            keywords.append(word)
+            keywords.append(word)  # noqa: PERF401
 
     return keywords
 
@@ -177,6 +195,8 @@ def filter_and_rank_tags(tags, topic, max_results):
     final_tags = []
     seen_tags = set()
 
+    similarity_threshold = 0.7  # 70% similarity threshold
+
     for tag in top_tags:
         # Check if similar tag already exists
         words = set(tag.split())
@@ -188,7 +208,7 @@ def filter_and_rank_tags(tags, topic, max_results):
                 len(words & existing_words)
                 / len(words | existing_words)
             )
-            if similarity > 0.7:  # 70% similar
+            if similarity > similarity_threshold:
                 is_duplicate = True
                 break
 
