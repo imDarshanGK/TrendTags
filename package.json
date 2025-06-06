@@ -1,0 +1,19 @@
+{
+  "name": "trendtags",
+  "version": "1.0.0",
+  "description": "[![CI Status](https://github.com/imDarshanGK/TrendTags/actions/workflows/main.yml/badge.svg)](https://github.com/imDarshanGK/TrendTags/actions) [![CodeQL](https://github.com/imDarshanGK/TrendTags/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/imDarshanGK/TrendTags/actions)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^9.28.0",
+    "prettier": "^3.5.3"
+  }
+}
