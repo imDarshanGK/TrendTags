@@ -54,10 +54,7 @@ def get_tags():
         )
 
     except errors.APIError as e:  # Handle error invoked by get_youtube_tags()
-        logger.exception(
-            "API Error: (%s) %s: %s",
-            e.value, e.phrase, e.description
-            )
+        logger.exception("API Error: (%s) %s: %s", e.value, e.phrase, e.description)
         return jsonify({e.phrase: e.description}), e.value
 
     # Handle error invoked by get_youtube_tags()

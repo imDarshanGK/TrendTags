@@ -11,8 +11,10 @@ class APIError(Exception):
         self.description = response.description
 
     def __str__(self):
-        return (f"API Error: {self.response.phrase}: {self.response.value}"
-                + f" - {self.response.description}")
+        return (
+            f"API Error: {self.response.phrase}: {self.response.value}"
+            + f" - {self.response.description}"
+        )
 
 
 class NonStandardResponseCodeError(Exception):
@@ -23,8 +25,10 @@ class NonStandardResponseCodeError(Exception):
         self.message: str = message
 
     def __str__(self):
-        response = ("An unexpected error was raised with the API "
-                    + f"{self.status_code}: {self.message}")
+        response = (
+            "An unexpected error was raised with the API "
+            + f"{self.status_code}: {self.message}"
+        )
         return response
 
 

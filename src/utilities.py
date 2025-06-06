@@ -52,9 +52,8 @@ def check_response_status(*args, **kwargs) -> requests.Response:
             raise errors.APIError(rsp.GATEWAY_TIMEOUT)
         case _:
             raise errors.NonStandardResponseCodeError(
-                response.status_code,
-                "An unexpected error occurred with the API."
-                )
+                response.status_code, "An unexpected error occurred with the API."
+            )
 
 
 def remove_duplicate_items(raw_list: list[str]) -> list[str]:
