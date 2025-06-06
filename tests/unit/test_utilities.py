@@ -8,7 +8,7 @@ from src import errors, utilities
 
 TOO_MANY_REQUESTS = 429
 OK_RESPONSE = 200
-INTERNAL_SERVER_ERROR = 500
+RANDOM_OTHER_ERROR = 555
 
 
 class TestRemoveDuplicateTags(unittest.TestCase):
@@ -54,15 +54,15 @@ class TestCheckResponseStatus(unittest.TestCase):
 
         mock_get.return_value = mock_response
 
-        with pytest.raises(errors.TooManyRequestsError) as exc_info:
+        with pytest.raises(errors.APIError) as exc_info:
             utilities.check_response_status()
 
-        assert exc_info.value.status_code == TOO_MANY_REQUESTS
+        assert exc_info.value.value == TOO_MANY_REQUESTS
 
     @patch("requests.get")
     def test_non_standard_response_code_raises_error(self, mock_get):
         mock_response = Mock(requests.Response)
-        mock_response.status_code = INTERNAL_SERVER_ERROR
+        mock_response.status_code = RANDOM_OTHER_ERROR
         mock_response.text = "Internal Server Error"
 
         mock_get.return_value = mock_response
@@ -70,7 +70,7 @@ class TestCheckResponseStatus(unittest.TestCase):
         with pytest.raises(errors.NonStandardResponseCodeError) as exc_info:
             utilities.check_response_status()
 
-        assert exc_info.value.status_code == INTERNAL_SERVER_ERROR
+        assert exc_info.value.status_code == RANDOM_OTHER_ERROR
 
     @patch("requests.get")
     def test_successful_response(self, mock_get):

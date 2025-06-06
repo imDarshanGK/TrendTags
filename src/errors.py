@@ -1,38 +1,31 @@
-from dataclasses import dataclass
+from http import HTTPStatus
 
 
 class APIError(Exception):
     """Base class for handling API exceptions."""
 
-    pass
-
-
-@dataclass
-class TooManyRequestsError(APIError):
-    """Custom exception for handling too many requests errors."""
-
-    status_code: int = 429
-    message: str = (
-        "Too many requests. Please try again later. "
-        + "Request rate limit resets daily."
-    )
+    def __init__(self, response: HTTPStatus):
+        self.response = response
+        self.value = response.value
+        self.phrase = response.phrase
+        self.description = response.description
 
     def __str__(self):
-        return (
-            "Too many requests. "
-            + f"Please try again later ({self.status_code}: {self.message})"
-        )
+        return (f"API Error: {self.response.phrase}: {self.response.value}"
+                + f" - {self.response.description}")
 
 
-@dataclass
-class NonStandardResponseCodeError(APIError):
+class NonStandardResponseCodeError(Exception):
     """Custom exception for handling non-standard response codes."""
 
-    status_code: int
-    message: str
+    def __init__(self, status_code: int, message: str):
+        self.status_code: int = status_code
+        self.message: str = message
 
     def __str__(self):
-        return f"Error raised with API access {self.status_code}: {self.message}"
+        response = ("An unexpected error was raised with the API "
+                    + f"{self.status_code}: {self.message}")
+        return response
 
 
 class MissingKeyError(ValueError):

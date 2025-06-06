@@ -1,3 +1,4 @@
+from http import HTTPStatus as rsp
 import requests
 
 from . import errors
@@ -14,8 +15,7 @@ def check_response_status(*args, **kwargs) -> requests.Response:
             Follow arguments for the requests.get() method.
 
     Raises:
-        TooManyRequestsError: Raises a TooManyRequestsError if the status code
-            is 429 and the user has been rate limited by the API.
+        APIError: Raises an API error for specific HTTP status codes.
         NonStandardResponseCodeError: Raises a generic Exception for other non-200
             status codes.
 
@@ -23,24 +23,38 @@ def check_response_status(*args, **kwargs) -> requests.Response:
         requests.Response: Returns the response object if the request is successful.
     """
     response = requests.get(*args, **kwargs)
-
-    too_many_requests = 429
-    successful_response = 200
-
-    if response.status_code == too_many_requests:
-        raise errors.TooManyRequestsError(
-            status_code=response.status_code,
-            message=response.text,
-        )
-
-    if response.status_code != successful_response:
-        # TODO: #60 Handle other error codes as needed
-        raise errors.NonStandardResponseCodeError(
-            status_code=response.status_code,
-            message=response.text,
-        )
-
-    return response
+    
+    if response.status_code == rsp.OK:
+        return response
+    
+    match response.status_code:
+        case 400:
+            raise errors.APIError(rsp.BAD_REQUEST)
+        case 401:
+            raise errors.APIError(rsp.BAD_REQUEST)
+        case 403:
+            raise errors.APIError(rsp.FORBIDDEN)
+        case 404:
+            raise errors.APIError(rsp.NOT_FOUND)
+        case 408:
+            raise errors.APIError(rsp.REQUEST_TIMEOUT)
+        case 429:
+            raise errors.APIError(rsp.TOO_MANY_REQUESTS)
+        case 500:
+            raise errors.APIError(rsp.INTERNAL_SERVER_ERROR)
+        case 501:
+            raise errors.APIError(rsp.NOT_IMPLEMENTED)
+        case 502:
+            raise errors.APIError(rsp.BAD_GATEWAY)
+        case 503:
+            raise errors.APIError(rsp.SERVICE_UNAVAILABLE)
+        case 504:
+            raise errors.APIError(rsp.GATEWAY_TIMEOUT)
+        case _:
+            raise errors.NonStandardResponseCodeError(
+                response.status_code,
+                "An unexpected error occurred with the API."
+                )
 
 
 def remove_duplicate_items(raw_list: list[str]) -> list[str]:

@@ -53,11 +53,16 @@ def get_tags():
             },
         )
 
-    except errors.TooManyRequestsError as exc:
-        return jsonify({exc.status_code: exc.message}), exc.status_code
+    except errors.APIError as e: # Handle error invoked by get_youtube_tags()
+        logger.exception(
+            "API Error: (%s) %s: %s",
+            e.value, e.phrase, e.description
+            )
+        return jsonify({e.phrase: e.description}), e.value
 
-    except errors.NonStandardResponseCodeError as exc:
-        return jsonify({exc.status_code: exc.message}), exc.status_code
+    # Handle error invoked by get_youtube_tags()
+    except errors.NonStandardResponseCodeError as e:
+        return jsonify({e.status_code: e.message}), e.status_code
 
     except Exception:
         logger.exception("Error getting tags.")
