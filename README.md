@@ -1,7 +1,8 @@
 # TrendTags - Tag Generator
 
-[![CI Status](https://github.com/imDarshanGK/TrendTags/actions/workflows/main.yml/badge.svg)](https://github.com/imDarshanGK/TrendTags/actions)
-[![CodeQL](https://github.com/imDarshanGK/TrendTags/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/imDarshanGK/TrendTags/actions)
+[![Python Lint](https://github.com/imDarshanGK/TrendTags/actions/workflows/python-lint.yml/badge.svg)](https://github.com/imDarshanGK/TrendTags/actions)
+[![JS Lint](https://github.com/imDarshanGK/TrendTags/actions/workflows/js-lint.yml/badge.svg)](https://github.com/imDarshanGK/TrendTags/actions)
+[![CodeQL](https://github.com/imDarshanGK/TrendTags/actions/workflows/codeql.yml/badge.svg)](https://github.com/imDarshanGK/TrendTags/actions)
 
 ## Features
 
@@ -22,67 +23,84 @@
 
 1. Clone the repository and navigate to it in the command line:
 
-```bash
-git clone https://github.com/your-username/TrendTags.git
-cd TrendTags
-```
+    ```bash
+    git clone https://github.com/your-username/TrendTags.git
+    cd TrendTags
+    ```
 
 2. Create `.env` file:
 
-```bash
-cp .env.example .env
-nano .env  # Add your actual API keys
-```
+    ```bash
+    cp .env.example .env
+    nano .env  # Add your actual API keys
+    ```
 
-Then edit `.env` and replace placeholder values:
+    Then edit `.env` and replace placeholder values:
 
-```env
-# SECURITY WARNING!
-# 1. Rename this to .env
-# 2. Never commit real keys
-# 3. Get keys from Google Cloud Console
+    ```env
+    # SECURITY WARNING!
+    # 1. Rename this to .env
+    # 2. Never commit real keys
+    # 3. Get keys from Google Cloud Console
 
-YOUTUBE_API_KEY=your_key_here
-RAPIDAPI_KEY=your_key_here
-```
+    YOUTUBE_API_KEY=your_key_here
+    RAPIDAPI_KEY=your_key_here
+    ```
 
 3. Set up environment:
 
-```bash
-pip install -r requirements.txt
-```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 4. Run the application:
 
-```bash
-python app.py
-```
+    ```bash
+    python app.py
+    ```
 
 ## Usage
 
 1. Enter your video topic (e.g., "cooking", "tech reviews")
-1. Select number of tags (10-30)
-1. Click "Generate Tags"
-1. Copy tags with one click
+2. Select number of tags (10-30)
+3. Click "Generate Tags"
+4. Copy tags with one click
 
 ## Project Structure
 
 ```bash
-
 TrendTags/
 ├── .github/           # CI/CD workflows
-│   ├── workflows/     # GitHub Actions
-│   └── codeql/        # Security config
+│   └── workflows/     # GitHub Actions
 ├── static/            # Frontend assets
 │   ├── css/           # Stylesheets
 │   └── js/            # JavaScript
 ├── templates/         # HTML templates
 ├── tests/             # Pytest tests
+├── src/               # Source code
+│   ├── config.py      # Configuration
+│   └── ...            # Other modules
 ├── app.py             # Main application
-├── config.py          # Configuration
 ├── requirements.txt   # Dependencies
 ├── LICENSE            # MIT License
 └── README.md          # This file
+```
+
+## Code Quality
+
+To check Python code style and run tests:
+
+```bash
+flake8 src tests app.py
+black --check src tests app.py
+pytest
+```
+
+To check JavaScript code style:
+
+```bash
+npx eslint static/js
+npx prettier --check static/js
 ```
 
 ## Contributing
