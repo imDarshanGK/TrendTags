@@ -25,10 +25,10 @@ def check_response_status(*args, **kwargs) -> requests.Response:
         requests.Response: Returns the response object if the request is successful.
     """
     response = requests.get(*args, **kwargs)
-    
+
     if response.status_code == rsp.OK:
         return response
-    
+
     match response.status_code:
         case 400:
             raise errors.APIError(rsp.BAD_REQUEST)
