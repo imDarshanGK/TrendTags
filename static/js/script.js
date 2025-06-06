@@ -1,39 +1,39 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const topicInput = document.getElementById("topicInput");
-  const searchBtn = document.getElementById("searchBtn");
-  const maxResults = document.getElementById("maxResults");
-  const tagsContainer = document.getElementById("tagsContainer");
-  const sourceInfo = document.getElementById("sourceInfo");
-  const copyBtn = document.getElementById("copyBtn");
-  const refreshBtn = document.getElementById("refreshBtn");
+document.addEventListener('DOMContentLoaded', function () {
+  const topicInput = document.getElementById('topicInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const maxResults = document.getElementById('maxResults');
+  const tagsContainer = document.getElementById('tagsContainer');
+  const sourceInfo = document.getElementById('sourceInfo');
+  const copyBtn = document.getElementById('copyBtn');
+  const refreshBtn = document.getElementById('refreshBtn');
 
   // Initialize with empty state
   initializeEmptyState();
 
-  searchBtn.addEventListener("click", fetchTags);
+  searchBtn.addEventListener('click', fetchTags);
 
-  topicInput.addEventListener("keypress", function (e) {
-    if (e.key === "Enter") fetchTags();
+  topicInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') fetchTags();
   });
 
-  copyBtn.addEventListener("click", copyAllTags);
+  copyBtn.addEventListener('click', copyAllTags);
 
   function fetchTags() {
     const topic = topicInput.value.trim();
     const maxTags = maxResults.value;
 
     if (!topic) {
-      showError("Please enter a topic");
+      showError('Please enter a topic');
       return;
     }
 
     // Show loading state
     showLoadingState();
 
-    fetch("/get_tags", {
-      method: "POST",
+    fetch('/get_tags', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: `topic=${encodeURIComponent(topic)}&max_results=${maxTags}`,
     })
@@ -56,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function displayTags(tags, source) {
-    tagsContainer.innerHTML = "";
+    tagsContainer.innerHTML = '';
 
     if (!tags || tags.length === 0) {
-      showError("No tags found for this topic. Try a different search term.");
+      showError('No tags found for this topic. Try a different search term.');
       return;
     }
 
@@ -72,16 +72,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Show copy button
-    copyBtn.classList.remove("hidden");
+    copyBtn.classList.remove('hidden');
   }
 
   function createTagElement(tagText) {
-    const tagElement = document.createElement("div");
-    tagElement.className = "tag";
+    const tagElement = document.createElement('div');
+    tagElement.className = 'tag';
     tagElement.textContent = tagText;
-    tagElement.title = "Click to copy";
+    tagElement.title = 'Click to copy';
 
-    tagElement.addEventListener("click", function () {
+    tagElement.addEventListener('click', function () {
       copyToClipboard(tagText);
       showCopiedFeedback(tagElement);
     });
@@ -90,12 +90,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Refresh Button
-  refreshBtn.addEventListener("click", fetchTags);
+  refreshBtn.addEventListener('click', fetchTags);
 
   function copyAllTags() {
-    const tags = Array.from(document.querySelectorAll(".tag"))
+    const tags = Array.from(document.querySelectorAll('.tag'))
       .map((tag) => tag.textContent)
-      .join(", ");
+      .join(', ');
 
     copyToClipboard(tags);
     showCopiedFeedback(copyBtn, '<i class="fas fa-check"></i> Copied!');
@@ -103,11 +103,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).catch((err) => {
-      console.error("Could not copy text: ", err);
+      console.error('Could not copy text: ', err);
     });
   }
 
-  function showCopiedFeedback(element, temporaryText = "Copied!") {
+  function showCopiedFeedback(element, temporaryText = 'Copied!') {
     const originalText = element.innerHTML;
     element.innerHTML = temporaryText;
 
@@ -118,8 +118,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showLoadingState() {
     tagsContainer.innerHTML = '<div class="loading"></div>';
-    sourceInfo.textContent = "Loading...";
-    copyBtn.classList.add("hidden");
+    sourceInfo.textContent = 'Loading...';
+    copyBtn.classList.add('hidden');
   }
 
   function showError(message) {
@@ -128,13 +128,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 <i class="fas fa-exclamation-circle"></i> ${message}
             </div>
         `;
-    sourceInfo.textContent = "";
-    copyBtn.classList.add("hidden");
+    sourceInfo.textContent = '';
+    copyBtn.classList.add('hidden');
   }
 
   function handleError(error) {
-    console.error("Error:", error);
-    showError("Failed to load tags. Please try again later.");
+    console.error('Error:', error);
+    showError('Failed to load tags. Please try again later.');
   }
 
   function initializeEmptyState() {
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p>Enter a topic to generate YouTube tags</p>
             </div>
         `;
-    sourceInfo.textContent = "";
-    copyBtn.classList.add("hidden");
+    sourceInfo.textContent = '';
+    copyBtn.classList.add('hidden');
   }
 });
