@@ -48,7 +48,7 @@ class TestRemoveDuplicateTags(unittest.TestCase):
 
 class TestCheckResponseStatus(unittest.TestCase):
 
-    @patch('requests.get')
+    @patch("requests.get")
     def test_rate_limit_raises_error(self, mock_get):
         mock_response = Mock(requests.Response)
         mock_response.status_code = TOO_MANY_REQUESTS
@@ -60,7 +60,7 @@ class TestCheckResponseStatus(unittest.TestCase):
 
         assert exc_info.value.status_code == TOO_MANY_REQUESTS
 
-    @patch('requests.get')
+    @patch("requests.get")
     def test_non_standard_response_code_raises_error(self, mock_get):
         mock_response = Mock(requests.Response)
         mock_response.status_code = INTERNAL_SERVER_ERROR
@@ -73,7 +73,7 @@ class TestCheckResponseStatus(unittest.TestCase):
 
         assert exc_info.value.status_code == INTERNAL_SERVER_ERROR
 
-    @patch('requests.get')
+    @patch("requests.get")
     def test_successful_response(self, mock_get):
         mock_response = Mock(requests.Response)
         mock_response.status_code = OK_RESPONSE
