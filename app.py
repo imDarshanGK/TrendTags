@@ -53,14 +53,14 @@ def get_tags():
             }
         )
 
-    except errors.TooManyRequestsError as e:
-        # Log the error with logger added in
-        # https://github.com/imDarshanGK/TrendTags/pull/55
-        # TODO: Uncomment the logger line below and noqa above when logger is added
-        # and remove `noqa F841`
-        # logger.exception(f"Too many requests error: {str(e)}")
-        return jsonify({e.status_code: e.message}), e.status_code
+    except errors.APIError as e: # Handle error invoked by get_youtube_tags()
+        logger.exception(
+            "API Error: (%s) %s: %s",
+            e.value, e.phrase, e.description
+            )
+        return jsonify({e.phrase: e.description}), e.value
 
+    # Handle error invoked by get_youtube_tags()
     except errors.NonStandardResponseCodeError as e:
         return jsonify({e.status_code: e.message}), e.status_code
 
