@@ -13,6 +13,6 @@ pluggy==1.6.0
 pytest==8.3.5
 pytest-cov==5.0.0
 python-dotenv==0.19.0
-requests==2.32.0
+requests==2.32.3
 urllib3==1.26.20
 Werkzeug==3.0.6
