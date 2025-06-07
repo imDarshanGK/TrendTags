@@ -21,4 +21,4 @@ from src import tag_processing
 )
 def test_keep_valid_tags(input_tags, expected_output):
     topic = "python"
-    assert tag_processing.keep_valid_tags(input_tags, topic) == expected_output
+    assert tag_processing.filter_tags_by_topic(input_tags, topic) == expected_output
