@@ -11,8 +11,13 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-optional = [
+developer = [
+    "black>=25.1.0",
+    "flake8>=7.2.0",
     "ipykernel>=6.29.5",
+    "pytest>=8.4.0",
+    "pytest-cov>=6.1.1",
+    "pytest-html>=4.1.1",
 ]
 
 [tool.black]
@@ -27,12 +32,3 @@ exclude = '''
   | migrations
 )/
 '''
-
-[dependency-groups]
-dev = [
-    "black>=25.1.0",
-    "flake8>=7.2.0",
-    "pytest>=8.4.0",
-    "pytest-cov>=6.1.1",
-    "pytest-html>=4.1.1",
-]
