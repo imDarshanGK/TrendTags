@@ -119,7 +119,7 @@ def get_youtube_tags(topic, max_results=30):
 
             # Process tags from video
             if video_tags:
-                all_tags.extend(tag_processing.keep_valid_tags(video_tags, topic))
+                all_tags.extend(tag_processing.filter_tags_by_topic(video_tags, topic))
 
             # Extract keywords from title and description
             all_tags.extend(extract_keywords(title, topic))
