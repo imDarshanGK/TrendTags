@@ -46,3 +46,14 @@ class MissingKeyError(ValueError):
 
     def __str__(self):
         return f"MissingKeyError: {self.key_name} is not set in the environment."
+
+
+class MissingInputValueError(ValueError):
+    """Custom exception for handling missing input values."""
+
+    def __init__(self, input_name: str):
+        super().__init__(f"Error: {input_name} is required but not provided.")
+        self.input_name = input_name
+
+    def __str__(self):
+        return f"MissingInputValueError: {self.input_name} must be provided."
