@@ -66,7 +66,7 @@ def get_tags():
 
     except Exception as e:
         logger.exception("Error getting tags.")
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "An internal error has occurred. Please try again later."}), 500
 
 
 def get_youtube_tags(topic, max_results=30):
