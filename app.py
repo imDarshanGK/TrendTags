@@ -40,9 +40,7 @@ def get_tags():
 
     try:
         if not topic:
-            logger.error(
-                "No topic provided in request. Request data: %s", request.form
-            )
+            logger.error("No topic provided in request. Request data: %s", request.form)
             return jsonify({"error": "Please enter a topic"}), 400
 
         # Get tags from YouTube API
@@ -66,9 +64,7 @@ def get_tags():
         # SECURITY: Do not return stack trace or exception details to user
         return (
             jsonify(
-                {
-                    "error": "An internal error has occurred. Please try again later."
-                }
+                {"error": "An internal error has occurred. Please try again later."}
             ),
             500,
         )
