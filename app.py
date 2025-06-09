@@ -54,10 +54,6 @@ def get_tags():
         )
 
     except errors.TooManyRequestsError as e:
-        # Log the error with logger added in
-        # https://github.com/imDarshanGK/TrendTags/pull/55
-        # TODO: Uncomment the logger line below and noqa above when logger is added
-        # and remove `noqa F841`
         # logger.exception(f"Too many requests error: {str(e)}")
         return jsonify({e.status_code: e.message}), e.status_code
 
@@ -66,6 +62,7 @@ def get_tags():
 
     except Exception as e:
         logger.exception("Error getting tags.")
+        # SECURITY: Do not return stack trace or exception details to user
         return jsonify({"error": "An internal error has occurred. Please try again later."}), 500
 
 
@@ -166,7 +163,7 @@ def extract_keywords(text, topic):
             and topic.lower() in word
             and word not in ["youtube", "video", "watch", "channel"]
         ):
-            keywords.append(word)  # noqa: PERF401
+            keywords.append(word)
 
     return keywords
 
