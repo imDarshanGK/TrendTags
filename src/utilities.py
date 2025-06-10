@@ -1,5 +1,3 @@
-from typing import List
-
 import requests
 
 from . import errors
@@ -45,7 +43,7 @@ def check_response_status(*args, **kwargs) -> requests.Response:
     return response
 
 
-def remove_duplicate_items(raw_list: List[str]) -> List[str]:
+def remove_duplicate_items(raw_list: list[str]) -> list[str]:
     """Remove duplicate items from a list while preserving order."""
     seen = set()
     deduped = []

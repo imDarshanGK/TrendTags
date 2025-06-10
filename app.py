@@ -7,7 +7,7 @@ from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request
 
-from src import config, errors, logger_utils, utilities
+from src import config, errors, logger_utils, tag_processing, utilities
 
 app = Flask(__name__)
 
@@ -50,7 +50,7 @@ def get_tags():
             {
                 "tags": tags,
                 "source": "YouTube API",
-            }
+            },
         )
 
     except errors.TooManyRequestsError as exc:
@@ -119,7 +119,7 @@ def get_youtube_tags(topic, max_results=30):
 
             # Process tags from video
             if video_tags:
-                all_tags.extend(process_tags(video_tags, topic))
+                all_tags.extend(tag_processing.filter_tags_by_topic(video_tags, topic))
 
             # Extract keywords from title and description
             all_tags.extend(extract_keywords(title, topic))
@@ -129,23 +129,6 @@ def get_youtube_tags(topic, max_results=30):
     filtered_tags = filter_and_rank_tags(all_tags, topic, max_results)
 
     return filtered_tags
-
-
-def process_tags(tags, topic):
-    processed = []
-    minimum_tag_length = 3
-
-    for tag in tags:
-        # Clean tag
-        tag = tag.lower().strip()
-        tag = re.sub(r"[^\w\s-]", "", tag)  # Remove special chars except - and space
-
-        # Skip if too short or doesn't contain topic
-        if len(tag) < minimum_tag_length or topic.lower() not in tag:
-            continue
-
-        processed.append(tag)
-    return processed
 
 
 def extract_keywords(text, topic):

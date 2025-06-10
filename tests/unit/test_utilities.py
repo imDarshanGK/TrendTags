@@ -47,7 +47,6 @@ class TestRemoveDuplicateTags(unittest.TestCase):
 
 
 class TestCheckResponseStatus(unittest.TestCase):
-
     @patch("requests.get")
     def test_rate_limit_raises_error(self, mock_get):
         mock_response = Mock(requests.Response)
