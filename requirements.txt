@@ -12,7 +12,7 @@ pluggy==1.6.0
 pytest
 pytest-cov==5.0.0
 python-dotenv==0.19.0
-requests==2.32.3
+requests==2.32.4
 urllib3==1.26.20
 Werkzeug>=3.1.0,<4.0.0
 blinker>=1.9.0
