@@ -1,5 +1,5 @@
 certifi==2025.4.26
-charset-normalizer==2.0.12
+charset-normalizer==3.4.2
 click==8.1.8
 Flask==3.1.1
 idna==3.10
@@ -11,8 +11,11 @@ packaging==25.0
 pluggy==1.6.0
 pytest
 pytest-cov==5.0.0
+dependabot/pip/requests-2.32.4
 python-dotenv==0.19.0
 requests==2.32.4
+python-dotenv==1.1.0
+requests==2.32.3
 urllib3==1.26.20
 Werkzeug>=3.1.0,<4.0.0
 blinker>=1.9.0
