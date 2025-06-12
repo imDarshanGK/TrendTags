@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from errors import MissingKeyError
+from .errors import MissingKeyError
 
 load_dotenv()
 
