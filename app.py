@@ -221,5 +221,6 @@ def filter_and_rank_tags(tags, topic, max_results):
 
 if __name__ == "__main__":
     debug = os.environ.get("FLASK_DEBUG", "0") == "1"
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("FLASK_PORT", 5000))
+    print(f"Starting Flask app at http://127.0.0.1:{port} with debug = {debug}")
     app.run(host="0.0.0.0", port=port, debug=debug)
