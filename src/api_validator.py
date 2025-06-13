@@ -1,7 +1,7 @@
 import re
 import logging
 import os
-from src import errors, api_validator
+from src import errors
 
 from dotenv import load_dotenv
 
@@ -12,16 +12,8 @@ def check_youtube_api_key():
     load_dotenv()
     youtube_api_key = os.getenv("YOUTUBE_API_KEY")
     if not youtube_api_key:
-        logger.error(
-            "YouTube API key is missing. "
-            + "Please set the YOUTUBE_API_KEY environment variable.",
-        )
         raise errors.MissingKeyError(key_name="YouTube API Key")
-    if not api_validator.validate_youtube_api_key(youtube_api_key):
-        logger.error(
-            "YouTube API key is invalid. "
-            + "Please check your configuration file or environment variables.",
-        )
+    if not validate_youtube_api_key(youtube_api_key):
         raise errors.InvalidAPIKeyError("YouTube API key is invalid.")
     logger.info("YouTube API key is valid.")
     return youtube_api_key
@@ -35,6 +27,10 @@ def check_rapid_api_key():
             "RapidAPI key is missing. Some features may not work without it. "
             + "Please set the RAPIDAPI_KEY environment variable.",
         )
+        return None
+    if not validate_rapidapi_key(rapid_api_key):
+        raise errors.InvalidAPIKeyError("RapidAPI key is invalid.")
+    logger.info("RapidAPI key is valid.")
     return rapid_api_key
 
 
@@ -50,9 +46,11 @@ def validate_youtube_api_key(api_key: str) -> bool:
     """
 
     if not check_youtube_api_key_prefix(api_key):
+        logger.debug("YouTube API key does not start with 'AIza'.")
         return False
 
     if not is_valid_youtube_api_key_length(api_key):
+        logger.debug("YouTube API key does not have a valid length.")
         return False
 
     return True
@@ -98,9 +96,11 @@ def validate_rapidapi_key(api_key: str) -> bool:
     """
 
     if not is_valid_rapidapi_key_length(api_key):
+        logger.debug("RapidAPI key does not have a valid length.")
         return False
 
     if not is_uuid_format(api_key):
+        logger.debug("RapidAPI key is not in UUID format.")
         return False
 
     return True
