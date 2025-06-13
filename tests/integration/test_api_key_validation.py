@@ -1,8 +1,7 @@
-from src.api_validator import validate_rapidapi_key, validate_youtube_api_key
-
 import pytest
-from src import api_validator, errors
 
+from src import api_validator, errors
+from src.api_validator import validate_rapidapi_key, validate_youtube_api_key
 
 FAKE_GOOD_YOUTUBE_API_KEY = "AIzaSyDUMMYKEY1234567890123456789012345"
 FAKE_BAD_YOUTUBE_API_KEY = "DUMMYKEY12345678901234567890123456789"

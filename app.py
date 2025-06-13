@@ -7,7 +7,7 @@ from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request
 
-from src import errors, logger_utils, tag_processing, utilities, api_validator
+from src import api_validator, errors, logger_utils, tag_processing, utilities
 
 app = Flask(__name__)
 
@@ -77,7 +77,7 @@ def get_tags():
         # SECURITY: Do not return stack trace or exception details to user
         return (
             jsonify(
-                {"error": "An internal error has occurred. Please try again later."}
+                {"error": "An internal error has occurred. Please try again later."},
             ),
             500,
         )
