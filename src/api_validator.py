@@ -1,4 +1,41 @@
 import re
+import logging
+import os
+from src import errors, api_validator
+
+from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
+
+
+def check_youtube_api_key():
+    load_dotenv()
+    youtube_api_key = os.getenv("YOUTUBE_API_KEY")
+    if not youtube_api_key:
+        logger.error(
+            "YouTube API key is missing. "
+            + "Please set the YOUTUBE_API_KEY environment variable.",
+        )
+        raise errors.MissingKeyError(key_name="YouTube API Key")
+    if not api_validator.validate_youtube_api_key(youtube_api_key):
+        logger.error(
+            "YouTube API key is invalid. "
+            + "Please check your configuration file or environment variables.",
+        )
+        raise errors.InvalidAPIKeyError("YouTube API key is invalid.")
+    logger.info("YouTube API key is valid.")
+    return youtube_api_key
+
+
+def check_rapid_api_key():
+    load_dotenv()
+    rapid_api_key = os.getenv("RAPIDAPI_KEY")
+    if not rapid_api_key:
+        logger.warning(
+            "RapidAPI key is missing. Some features may not work without it. "
+            + "Please set the RAPIDAPI_KEY environment variable.",
+        )
+    return rapid_api_key
 
 
 def validate_youtube_api_key(api_key: str) -> bool:
