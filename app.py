@@ -7,7 +7,7 @@ from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request
 
-from src import config, errors, logger_utils, tag_processing, utilities
+from src import api_validator, errors, logger_utils, tag_processing, utilities
 
 app = Flask(__name__)
 
@@ -26,6 +26,19 @@ except FileNotFoundError:
 
 # Set a delineator for a new application run in log file
 logger.debug("\n%s NEW LOG RUN %s\n", "=" * 60, "=" * 60)
+
+try:
+    youtube_api_key = api_validator.check_youtube_api_key()
+    rapid_api_key = api_validator.check_rapid_api_key()
+except errors.MissingKeyError as exc:
+    logger.error(
+        "Missing required API key: %s. Please set the environment variable.",
+        exc.key_name,
+    )
+    raise
+except errors.InvalidAPIKeyError as exc:
+    logger.error("Invalid API key: %s", exc.message)
+    raise
 
 
 @app.route("/")
@@ -64,7 +77,7 @@ def get_tags():
         # SECURITY: Do not return stack trace or exception details to user
         return (
             jsonify(
-                {"error": "An internal error has occurred. Please try again later."}
+                {"error": "An internal error has occurred. Please try again later."},
             ),
             500,
         )
@@ -79,7 +92,7 @@ def get_youtube_tags(topic, max_results=30):
         "type": "video",
         "order": "relevance",
         "maxResults": min(50, max_results * 2),  # Get more to filter later
-        "key": config.YOUTUBE_API_KEY,
+        "key": youtube_api_key,
         "publishedAfter": (datetime.now() - timedelta(days=30)).isoformat() + "Z",
     }
 
@@ -98,7 +111,7 @@ def get_youtube_tags(topic, max_results=30):
         videos_params = {
             "part": "snippet",
             "id": ",".join(video_ids),
-            "key": config.YOUTUBE_API_KEY,
+            "key": youtube_api_key,
         }
 
         videos_response = utilities.check_response_status(
@@ -208,5 +221,6 @@ def filter_and_rank_tags(tags, topic, max_results):
 
 if __name__ == "__main__":
     debug = os.environ.get("FLASK_DEBUG", "0") == "1"
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("FLASK_PORT", 5000))
+    print(f"Starting Flask app at http://127.0.0.1:{port} with debug = {debug}")
     app.run(host="0.0.0.0", port=port, debug=debug)

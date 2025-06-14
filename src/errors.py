@@ -57,3 +57,11 @@ class MissingInputValueError(ValueError):
 
     def __str__(self):
         return f"MissingInputValueError: {self.input_name} must be provided."
+
+
+class InvalidAPIKeyError(APIError):
+    """Custom exception for handling invalid API keys."""
+
+    def __init__(self, message: str):
+        super().__init__(message)
+        self.message = message
