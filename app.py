@@ -22,7 +22,8 @@ except FileNotFoundError:
         "Ensure log directory path is at root level: %s",
         logging_config_path,
     )
-    raise
+    print("Logging configuration file not found. Please check the path and try again.")
+    exit(1)
 
 # Set a delineator for a new application run in log file
 logger.debug("\n%s NEW LOG RUN %s\n", "=" * 60, "=" * 60)
@@ -35,10 +36,15 @@ except errors.MissingKeyError as exc:
         "Missing required API key: %s. Please set the environment variable.",
         exc.key_name,
     )
-    raise
+    print("The required API key is missing. Please set the environment variable.")
+    exit(1)
 except errors.InvalidAPIKeyError as exc:
     logger.error("Invalid API key: %s", exc.message)
-    raise
+    print(
+        "The provided API key is invalid. "
+        + "Please check your configuration and the log for more details."
+    )
+    exit(1)
 
 
 @app.route("/")
