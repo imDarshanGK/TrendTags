@@ -28,35 +28,37 @@ TrendTags is a real-time tag generator powered by YouTube trends, built with Fla
 ### Quick Start
 
 1. **Clone the repository and navigate to it:**
+
     ```bash
     git clone https://github.com/imDarshanGK/TrendTags.git
     cd TrendTags
     ```
 
 2. **Create a `.env` file:**
+
     ```bash
     cp .env.example .env
     nano .env  # Add your actual API keys
     ```
-    Edit `.env` and set your keys:
-    ```env
-    # SECURITY WARNING!
-    # 1. Rename this to .env
-    # 2. Never commit real keys
-    # 3. Get keys from Google Cloud Console
 
-    YOUTUBE_API_KEY=your_key_here
-    RAPIDAPI_KEY=your_key_here
-    ```
+    Edit `.env` to set your Youtube API key. The Youtube API key is required, but you may optionally specify a Rapid API key, as well as the port the application will run on and the debug mode. When deploying to product, debug mode should be disabled.
+
+    Preliminary validation will be ran on your API keys prior to the app fully launching. If you receive an error, inspect the log file to identify what may resolve your issue.
 
 3. **Install dependencies:**
+
     ```bash
     pip install -r requirements.txt
+    # or, if using something like uv
+    uv sync
     ```
 
 4. **Run the application:**
+
     ```bash
     python app.py
+    # or, if using something like uv
+    uv run app.py
     ```
 
 ---
@@ -74,20 +76,27 @@ TrendTags is a real-time tag generator powered by YouTube trends, built with Fla
 
 ```bash
 TrendTags/
-├── .github/           # CI/CD workflows
-│   └── workflows/     # GitHub Actions
-├── static/            # Frontend assets
-│   ├── css/           # Stylesheets
-│   └── js/            # JavaScript
-├── templates/         # HTML templates
-├── tests/             # Pytest tests
-├── src/               # Source code
-│   ├── config.py      # Configuration
-│   └── ...            # Other modules
-├── app.py             # Main Flask application
-├── requirements.txt   # Python dependencies
-├── LICENSE            # MIT License
-└── README.md          # This file
+├── .github/                # CI/CD workflows
+│   └── workflows/          # GitHub Actions
+├── config/                 # Configuration files
+│   └── logging_config.json # Logging configuration file
+├── logs/                   # Source code
+│   └── debug_log.log       # Logging file
+├── src/                    # Source code
+│   ├── config.py           # Configuration
+│   └── ...                 # Other modules
+├── static/                 # Frontend assets
+│   ├── css/                # Stylesheets
+│   └── js/                 # JavaScript
+├── templates/              # HTML templates
+├── tests/                  # Pytest tests
+│   ├── integration/        # Integration level tests
+│   └── unit/               # Unit level tests
+├── env.example             # Example environment file
+├── app.py                  # Main Flask application
+├── requirements.txt        # Python dependencies
+├── LICENSE                 # MIT License
+└── README.md               # This file
 ```
 
 ---
