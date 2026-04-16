@@ -10,7 +10,7 @@ MarkupSafe==3.0.3
 packaging==26.0
 pluggy==1.6.0
 pytest
-pytest-cov==7.0.0
+pytest-cov==7.1.0
 python-dotenv==1.2.2
 requests==2.33.1
 urllib3==2.6.3
