@@ -13,7 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+ dependabot/npm_and_yarn/eslint-10.2.1
+    "eslint": "^10.2.1",
+    "prettier": "^3.8.1"
+
     "eslint": "^10.2.0",
     "prettier": "^3.8.3"
+ main
   }
 }
